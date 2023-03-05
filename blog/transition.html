@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145110631-1"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-145110631-1');
+		</script>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Transition Matrix</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="author" content="Theophile Cabannes" />
+
+		<!-- Load all the CSS, and the aside -->
+		<script src="/~theophile/js/load_css.js"></script>
+		<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+		<script> 
+		$(function(){
+		  $("#aside").load("/~theophile/aside.html"); 
+		});
+		</script> 
+	</head>
+	<body>
+	<div id="colorlib-page">
+		<div class="container-wrap">
+		<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
+		<aside id="colorlib-aside" role="complementary" class="border js-fullheight">
+			<div id="aside"></div>
+		</aside>
+		
+		<div id="colorlib-main">
+			<section class="colorlib-about">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
+								<div class="col-md-12">
+									<div class="about-desc">
+											<h1 class="entry-title" itemprop="headline">Transition Matrix</h1>
+											<small>August 2019. By Jiayi Li.</small>
+									</div>
+
+					
+					<div class="entry-content" itemprop="articleBody">
+						<div  class="text-center">
+                                <img src="../images/transition/opening_picture.jpg" class="img-fluid result" alt="network config" class="text-center" width="90%">
+
+                            </div>
+                            <br>
+                            <p class="lead color-5"> We introduce a novel traffic control strategy that applies Markovian traffic assignment framework to dynamic traffic assignment. Markovian framework is a promising approach to improve the efficiency of traffic management, combining theory and learning for large scale system routing.</p>
+                            <p>Transition matrices are used in Markovian traffic assignment framework to derive traffic flow allocation and only the flow split ratios at each intersection are required for traffic assignment. Consequently, the amount of variables required for routing behavior modeling is much smaller, which makes it efficient and convenient to extend the traffic control strategy to larger system.</p>
+                            
+                            <p>As a case study, we applied the framework to a standard benchmark diagram which is simulated in Simulation for Urban Mobility (SUMO). A screenshot of the SUMO network setup is shown below on the left. The blue arrows are added to visualize the direction of traffic flow. A zoom-in window detailing the merge dynamics at C is shown below on the left: the vehicles from the two lanes take turns to merge in a “first come, first served” basis.</p>
+                            <div  class="text-center">
+                                <img src="../images/transition/network_config.png" class="img-fluid result" alt="network config" class="text-center" width="90%">
+                                    <figcaption class="small text-center"> SUMO network setup and its zoom-in window </figcaption>
+                            </div>
+                            
+                            
+                            <p>The optimal routing behaviors are independently learned through grid search, random search, and evolution strategies, under three different reward functions (network outflow, total vehicle hours of travel, and average marginal regret).
+                            
+                            </p>
+                        
+                            <p>
+                            <b>Grid Search</b>
+                            The
+                            <a href="https://youtu.be/-BewivYKgGw"
+                                title="grid search video">video</a>
+                            shows the time-varying distribution of each reward function on the meshgrid of PAB and PBC throughout the simulation. From left to right, three graphs respectively correspond to reward functions for average outflow, inverse of vehicle hours of travel and inverse of average marginal regret.
+                            At time 487.5s, when the network has converged to steady state, the point that gives the highest reward is marked as “★” for each reward function.
+                            
+                            <div  class="text-center">
+                                <img src="../images/transition/grid_search.png" class="img-fluid result" alt="network config" class="text-center" width="90%">
+                                    <figcaption class="small text-center"> Grid Search Result </figcaption>
+                            </div>
+                            
+                            Random search and evolution strategies are performed on top of reward distribution graph of stabilized network, and their results are presented below:
+                            </p>
+                            
+                            
+                            
+                            <p>
+                            <b>Random Search</b>
+                            50 sample points (black dots) are picked to measure the reward function and the optimal point that gives the highest reward is marked by “＋” symbol. For comparison, the solution found by grid search is marked by “★” symbol.
+                            <div  class="text-center">
+                                <img src="../images/transition/Random_Search.png" class="img-fluid result" alt="network config" class="text-center" width="90%">
+                                    <figcaption class="small text-center"> Random Search Result </figcaption>
+                            </div>
+                            </p>
+                            
+                            
+                            <p>
+                            <b>Evolution Strategies</b>
+                            Evolution strategies first randomly pick a starting point and then start climbing uphill with gradient ascent demonstrated by the black trace. The algorithm is manually terminated after 50 iterations at location marked by “＋” symbol. For comparison, the solution found by grid search is marked by “★” symbol.
+
+                            <div  class="text-center">
+                                <img src="../images/transition/Evolution_Strategies.png" class="img-fluid result" alt="Evolution Search Result" class="text-center" width="90%">
+                                    <figcaption class="small text-center"> Evolution Search Result </figcaption>
+                            </div>
+                            </p>
+                            
+                            <p>
+                            In practice, if the dimension of the problem is small, all of the three methods are good
+                            choices. Grid search method is exhaustive but it doesn’t scale well with the dimension of the problem. For large problems, random search or evolution strategies should be used instead. For problems where it is possible to efficiently compute the exact gradient, vanilla gradient ascent methods may be used instead. However, random search and evolution strategies can be easily parallelized across a large cluster of nodes, which may find a good solution with higher efficiency.
+                            
+                            In conclusion, by introducing the Markov property of traffic system (eg. a traveller’s decision about the next link to take is not affected by his/her previous path),  the Markovian framework reduces the number of variables to compute in the static traffic assignment. This notion is further extended to dynamic traffic assignment using the micro-simulator SUMO. On a benchmark network, the simulator learns optimal routing behavior by finding optimal flow split ratios at every node using grid search, random search, and evolution strategies. The results show the ability of the Markovian framework to learn optimal routing behavior using SUMO.
+                            </p>
+                            <p>
+                            This work can lead to several applications:
+                            1. Use the transition matrix framework to perform traffic estimation through data assimilation using regression with cross-sectional data.
+                            2. By learning optimal transition matrices, decentralized traffic control strategies may be developed.
+                            3. With the application of Markov chain theory and graph theory, the resiliency of traffic network can be better understood.
+                            4. it’s possible to consider the time-varying transition matrices in which the split ratio at each timestep may be learned through reinforcement learning.
+                            5. For multi-OD network, it’s possible to learn a transition matrix for each destination.
+                            </p>
+                        </div>    
+</div><!-- .entry-content -->
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+</div></div></div>
+
+	<!-- jQuery -->
+	<script src="../js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="../js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="../js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="../js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="../js/jquery.flexslider-min.js"></script>
+	<!-- Owl carousel -->
+	<script src="../js/owl.carousel.min.js"></script>
+	<!-- Counters -->
+	<script src="../js/jquery.countTo.js"></script>
+	
+	
+	<!-- MAIN JS -->
+	<script src="../js/main.js"></script>
+
+	</body>
+</html>
+
