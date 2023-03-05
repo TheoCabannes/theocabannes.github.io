@@ -1,4 +1,2 @@
-.ipynb_checkpoints/*
-**/.DS_Store
-**-checkpoint.ipynb
-**.pyc
+.DS_Store
+.ipynb_checkpoints
