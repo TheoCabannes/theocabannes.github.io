@@ -1,4 +1,7 @@
 source "https://rubygems.org"
+# To make sure to be able to run the website with Github,
+# you need to update the ruby version in the ~/.bash_profile.
+
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
 # file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
